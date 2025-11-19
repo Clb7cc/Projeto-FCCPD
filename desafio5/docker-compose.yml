@@ -1,0 +1,21 @@
+services:
+  users-service:
+    build: ./users-service
+    container_name: desafio5-users
+    ports:
+      - "5001:5001"
+
+  orders-service:
+    build: ./orders-service
+    container_name: desafio5-orders
+    ports:
+      - "5002:5002"
+
+  gateway:
+    build: ./gateway
+    container_name: desafio5-gateway
+    ports:
+      - "5000:5000"
+    depends_on:
+      - users-service
+      - orders-service
