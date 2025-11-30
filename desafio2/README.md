@@ -1,4 +1,3 @@
-$readmeContent = @'
 # Desafio 2: Persistência de Dados com Docker + PostgreSQL + Volumes
 
 ## Objetivo
@@ -103,7 +102,6 @@ Este desafio prova claramente que:
 * Containers são descartáveis por natureza.
 * Volumes Docker mantêm os dados independentemente da vida útil do container.
 * O PostgreSQL, ao reiniciar usando o mesmo volume, mantém exatamente o mesmo estado anterior.
-'@
 
 Set-Content -Path "README.md" -Value $readmeContent -Encoding UTF8
 Write-Host "Arquivo README.md criado com sucesso!" -ForegroundColor Green
