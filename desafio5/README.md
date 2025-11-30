@@ -14,7 +14,7 @@ Uma arquitetura distribuída que isola os serviços de dados atrás de um gatewa
 ### 1. `docker-compose.yml`
 Configura a topologia da orquestração:
 * **Services**:
-    * `gateway`: Exposto na porta 5000. É o único acessível publicamente.
+    * `gateway`: Exposto na porta 8000. É o único acessível publicamente.
     * `service_users`: Roda na porta 5001 (interna).
     * `service_orders`: Roda na porta 5002 (interna).
 * **Networks**: Define a rede para permitir que o Gateway resolva os nomes dos outros containers.
@@ -30,8 +30,8 @@ Configura a topologia da orquestração:
 * Automação para o ciclo de vida. Executa a construção das imagens (`build`), sobe os containers (`up`) e realiza testes automáticos com `curl` para validar se o JSON está retornando corretamente através do Gateway.
 
 ## Funcionamento
-Ao fazer uma requisição para o Gateway (`http://localhost:5000/users`), a aplicação Python dentro do Gateway atua como um "proxy".
-Ela dispara uma nova chamada para `http://service_users:5001/`, pega a resposta e devolve para quem chamou.
+Ao fazer uma requisição para o Gateway (`http://localhost:8000/users`), a aplicação Python dentro do Gateway atua como um "proxy".
+Ela dispara uma nova chamada para `http://service_users:5001/users`, pega a resposta e devolve para quem chamou.
 Isso comprova a comunicação entre containers distintos na rede Docker.
 
 ## Como Rodar
@@ -40,5 +40,5 @@ Isso comprova a comunicação entre containers distintos na rede Docker.
     ./run.sh
     ```
 2.  Teste manualmente no navegador (ou via Postman):
-    * Users via Gateway: `http://localhost:5000/users`
-    * Orders via Gateway: `http://localhost:5000/orders`
+    * Users via Gateway: `http://localhost:8000/users`
+    * Orders via Gateway: `http://localhost:8000/orders`

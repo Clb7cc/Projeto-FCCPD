@@ -21,7 +21,7 @@ O projeto consiste em:
 
 ### 1. docker-compose.yml
 Contém:
-* Serviço `db` usando a imagem oficial `postgres:15`.
+* Serviço `db` usando a imagem oficial `postgres:16`.
 * Variáveis de ambiente para usuário, senha e nome do banco.
 * **Dois volumes:**
     1.  Um volume nomeado `pgdata`, onde o banco armazena os dados permanentemente.
@@ -34,7 +34,7 @@ Quando o container é recriado, o PostgreSQL não roda o `init.sql` novamente �
 Arquivo SQL puro executado apenas na primeira criação do volume.
 Ele:
 * Cria a tabela `clientes` (se não existir).
-* Insere dados iniciais (ex: João, Maria, Pedro).
+* Insere dados iniciais (ex: Caio, Maria, João).
 
 Assim garantimos um estado inicial conhecido para testar a persistência.
 
@@ -47,7 +47,7 @@ Script shell automatizado que executa todo o ciclo de teste:
     ```
 2.  **Executa uma consulta SQL dentro do container:**
     ```bash
-    docker exec -it desafio2_db psql -U postgres -d desafio2 -c "SELECT * FROM clientes;"
+    docker exec -it desafio2_db psql -U user -d desafio2 -c "SELECT * FROM clientes;"
     ```
 3.  **Derruba o container (mas não o volume):**
     ```bash
@@ -102,6 +102,3 @@ Este desafio prova claramente que:
 * Containers são descartáveis por natureza.
 * Volumes Docker mantêm os dados independentemente da vida útil do container.
 * O PostgreSQL, ao reiniciar usando o mesmo volume, mantém exatamente o mesmo estado anterior.
-
-Set-Content -Path "README.md" -Value $readmeContent -Encoding UTF8
-Write-Host "Arquivo README.md criado com sucesso!" -ForegroundColor Green

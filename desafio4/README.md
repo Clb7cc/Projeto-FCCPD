@@ -33,7 +33,7 @@ PROJETO-FCCPD/desafio4
 ```json
 [
   {"id": 1, "nome": "Caio"},
-  {"id": 2, "nome": "Maria"},
+  {"id": 2, "nome": "Julia"},
   {"id": 3, "nome": "João"}
 ]
 ```
@@ -44,7 +44,7 @@ PROJETO-FCCPD/desafio4
 - Consome o Service A e monta frases:
 ```
 Usuário Caio ativo desde 2024
-Usuário Maria ativo desde 2024
+Usuário Julia ativo desde 2024
 Usuário João ativo desde 2024
 ```
 
