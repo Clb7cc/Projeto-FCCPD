@@ -1,11 +1,11 @@
 # Desafio 4 — Microsserviços Independentes com Comunicação via HTTP
 
-## 🎯 Objetivo
+## Objetivo
 Criar dois microsserviços independentes que se comunicam via HTTP, cada um com seu próprio Dockerfile, e orquestrados pelo Docker Compose.
 
 ---
 
-## 🏗 Arquitetura do Projeto
+## Arquitetura do Projeto
 
 ```
 PROJETO-FCCPD/desafio4
@@ -24,7 +24,7 @@ PROJETO-FCCPD/desafio4
 
 ---
 
-## 📌 Descrição dos Microsserviços
+## Descrição dos Microsserviços
 
 ### **Service A (Produtor)**
 - Porta interna: **5001**
@@ -50,7 +50,7 @@ Usuário João ativo desde 2024
 
 ---
 
-## 🐳 Execução com Docker Compose
+## Execução com Docker Compose
 
 Dentro da pasta `desafio4`:
 
@@ -66,7 +66,7 @@ docker compose down
 
 ---
 
-## 🤖 Teste Automático (run.sh)
+## Teste Automático (run.sh)
 
 Execute:
 
@@ -89,7 +89,7 @@ Saída esperada:
 
 ---
 
-## ✔ Conclusão
+## Conclusão
 
 Este desafio demonstra:
 - Microsserviços isolados
