@@ -1,5 +1,5 @@
 # PROJETO FCCPD
 
-## Todas as explicações detalhadas nos readme.md de cada desafio
+### Todas as explicações detalhadas nos readme.md de cada desafio
 
-## Autor : Caio Lima Bezerra
+### Autor : Caio Lima Bezerra
