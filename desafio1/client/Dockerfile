@@ -1,9 +1,9 @@
-FROM alpine
-RUN apk add --no-cache curl
+FROM alpine:latest
+
+RUN apk add --no-cache curl bash
 
 WORKDIR /app
 
-COPY run.sh .
-RUN chmod +x run.sh
+COPY loop.sh .
 
-CMD ["./run.sh"]
+CMD ["bash", "loop.sh"]

@@ -1,37 +1,53 @@
-# Desafio 1 - Comunicação entre Containers com Docker
+# Desafio 1: Containers em Rede
 
-Este projeto resolve o "Desafio 1" de Containers em Rede. O objetivo é demonstrar a comunicação entre dois serviços isolados (um cliente e um servidor) através de uma rede Docker customizada (bridge), utilizando DNS interno para resolução de nomes.
+## Objetivo
+Demonstrar a comunicação entre containers Docker através de uma rede personalizada, isolando a troca de dados entre um servidor web e um cliente automatizado.
 
-## 🏗️ Arquitetura e Decisões Técnicas
+## Descrição do Projeto
+Uma arquitetura cliente-servidor simples rodando em containers distintos:
+1.  **Servidor**: Uma API Flask que responde na porta 8080.
+2.  **Cliente**: Um script em loop que consome essa API periodicamente.
 
-A solução foi orquestrada utilizando **Docker Compose**. A escolha se deu pela facilidade em definir a infraestrutura como código (IaC), garantindo que a rede e os containers subam na ordem correta com um único comando.
+## Estrutura dos Arquivos
 
-### Componentes:
-1.  **Servidor (Server):**
-    * **Tecnologia:** Python com Flask.
-    * **Decisão:** Utilizei uma imagem `python:3.10-slim` para manter o container leve. O Flask foi escolhido pela simplicidade de criar um endpoint HTTP rápido.
-    * **Porta:** O serviço escuta na porta `8080`.
+### 1. `docker-compose.yml`
+Configura a topologia da rede:
+* **Services**:
+    * `webserver`: Serviço Python/Flask. Exposto na porta 8080.
+    * `client`: Serviço Alpine Linux. Possui `depends_on: webserver` para iniciar na ordem correta.
+* **Networks**: Define a rede `desafio1_net` (driver bridge) para permitir a resolução de nomes (DNS interno).
 
-2.  **Cliente (Client):**
-    * **Tecnologia:** Alpine Linux + cURL + Shell Script.
-    * **Decisão:** O Alpine foi escolhido por ser extremamente leve (aprox. 5MB). Criei um script shell (`run_tests.sh`) para gerenciar as requisições, permitindo customizar a URL de destino e o intervalo via variáveis de ambiente, sem necessidade de recompilar a imagem.
+### 2. Pasta `server/`
+* **`app.py`**:
+    * Rota `/`: Retorna um JSON simples (`{"message": "Servidor ativo!..."}`) para confirmar que a requisição chegou.
+* **`Dockerfile`**:
+    * Usa imagem `python:3.10-slim`.
+    * Instala o framework Flask e expõe a aplicação.
 
-3.  **Rede (Networking):**
-    * **Tipo:** Bridge (Customizada).
-    * **Nome:** `minha-rede-customizada`.
-    * **Funcionamento:** Ao colocar ambos os containers na mesma rede definida no Docker Compose, o Docker habilita a resolução de DNS automática. Isso permite que o `client` acesse o `server` apenas pelo nome do serviço, sem precisar saber o endereço IP.
+### 3. Pasta `client/`
+* **`loop.sh`**:
+    * Script Bash que executa um `curl` para `http://webserver:8080` a cada 5 segundos.
+    * Utiliza o nome do serviço (`webserver`) como endereço, provando que o DNS do Docker está funcionando.
+* **`Dockerfile`**:
+    * Usa imagem `alpine:latest` (leve).
+    * Instala `curl` e `bash` para executar o script de loop.
 
----
+### 4. `run.sh`
+* Automação para subir o ambiente. Executa `docker compose up --build` para construir as imagens e iniciar os logs no terminal.
 
-## 📂 Estrutura do Projeto
+## Funcionamento
+Ao subir o ambiente, o container `client` começa a "conversar" com o container `webserver`.
+Como ambos estão na mesma rede (`desafio1_net`), o cliente não precisa saber o IP do servidor; ele apenas chama pelo nome definido no Compose (`webserver`).
 
-```text
-/
-├── docker-compose.yml   # Orquestração dos serviços e rede
-├── README.md            # Documentação
-├── client/
-│   ├── Dockerfile       # Receita da imagem do cliente
-│   └── run_tests.sh     # Script de loop de requisições
-└── server/
-    ├── Dockerfile       # Receita da imagem do servidor
-    └── app.py           # Código da aplicação Flask
+## Como Rodar
+1.  Dê permissão e inicie o ambiente:
+    ```bash
+    chmod +x run.sh
+    ./run.sh
+    ```
+2.  Observe os logs no terminal:
+    * Você verá mensagens repetidas a cada 5 segundos:
+    ```text
+     Requisição :
+    {"message": "Servidor ativo! Comunicação funcionando."}
+    ```

@@ -1,24 +1,20 @@
-version: '3.8'
-
 services:
-  server:
+  webserver:
     build: ./server
-    container_name: server
+    container_name: desafio1-webserver
     ports:
       - "8080:8080"
     networks:
-      - minha-rede-customizada
+      - desafio1_net
 
   client:
     build: ./client
-    container_name: client
+    container_name: desafio1-client
     depends_on:
-      - server
-    environment:
-      - URL=http://server:8080
+      - webserver
     networks:
-      - minha-rede-customizada
+      - desafio1_net
 
 networks:
-  minha-rede-customizada:
+  desafio1_net:
     driver: bridge
