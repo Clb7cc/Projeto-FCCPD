@@ -1,14 +1,20 @@
 services:
-  service-a:
-    build: ./service-a
-    container_name: desafio4-service-a
+
+  service_a:
+    build: ./service_a
     ports:
       - "5001:5001"
+    networks:
+      - micro_net
 
-  service-b:
-    build: ./service-b
-    container_name: desafio4-service-b
+  service_b:
+    build: ./service_b
     ports:
       - "5002:5002"
     depends_on:
-      - service-a
+      - service_a
+    networks:
+      - micro_net
+
+networks:
+  micro_net:

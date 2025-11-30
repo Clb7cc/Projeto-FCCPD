@@ -1,6 +1,10 @@
 FROM python:3.10
+
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
+
+COPY app.py /app/app.py
+RUN pip install flask psycopg2 redis
+
+EXPOSE 3000
+
 CMD ["python", "app.py"]
